@@ -2,24 +2,34 @@
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private void Button1_Clicked(object sender, EventArgs e)
         {
-            count++;
+            this.Title = GetLabelText(Label1);
+        }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
+        private void Button2_Clicked(object sender, EventArgs e)
+        {
+            this.Title = GetLabelText(Label2Span);
+        }
+
+        public static string GetLabelText(Label lbl)
+        {
+            if (lbl.FormattedText != null)
+            {
+                // La label usa FormattedText (Span)  
+                string composedText = string.Concat(lbl.FormattedText.Spans.Select(s => s.Text));
+                return composedText;
+            }
             else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            {
+                // La label usa Text semplice  
+                return lbl.Text;
+            }
         }
     }
-
 }
